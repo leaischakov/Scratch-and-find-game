@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    button {
+        width: 20vw;
+        height: 15vh;
+        margin-left: 40%;
+        border-radius: 30%;
+
+    }
+
+    .b0 {
+        background-color: crimson;
+    margin-top: 15%;
+    }
+
+    .b1 {
+        background-color: aquamarine;
+        margin-top: 1%
+    }
+
+    .b2 {
+        background-color: darkorchid;
+    }
+
+    .b3 {
+        background-color: rgb(9, 250, 9);
+        margin-top: 1%;
+    }
+
+    body {
+        background-image: url("../img/90.jpg");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+
+    label {
+        font-size: 250%
+    }
+</style>
+
+<body>
+    <a href="../pages/form.html"><button class="b0"><label for=""> להרשמה</label></button></a>
+    <br><br>
+    <a href="../pages/instructions.html"><button class="b2"><label for="">הוראות</label></button></a>
+    <a href="../pages/level.html"><button class="b3" onclick="f()"><label for="">משחק חדש</label></button></a>
+
+    <a href="../pages/level.html"><button class="b1" onclick="bgPic()"><label for="">המשך משחק</label></button></a>
+    
+   
+
+
+
+    <script>
+
+        function f() {
+            localStorage.setItem('indexJ', 0);
+            localStorage.setItem('coins', 13);
+            localStorage.setItem('time', 59);
+            bgPic();
+        }
+
+
+
+    </script>
+
+</body>
+
+</html>

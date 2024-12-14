@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        label {
+            float: right;
+            width: 110px;
+            margin: 10px;
+        }
+
+        input {
+            background-color: rgb(241, 191, 97);
+            padding: 6px;
+            margin: 15px;
+            width: 200px;
+            height: 30px;
+        }
+
+        body {
+            background-image: url("../img/90.jpg");
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+
+        form {
+            margin-top: 20%;
+            text-align: center;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <form action="">
+        שם משתמש <br>
+        <input type="text" value="" id="input1"><br> סיסמא <br>
+        <input type="password" required><br>
+        <input type="submit" value="login" onclick="check()"><br>
+
+    </form>
+    <script>
+
+
+        function check() {
+            document.getElementById("input1").focus();
+            let userName = document.getElementById("input1").value;
+            let str = new String(userName);
+            console.log(str);
+            if(str.length==0){
+                alert("נא להכניס שם משתמש");
+                document.getElementById("input1").focus();
+            }
+            else if (str.length < 2) {
+                alert("הכנס שם יותר מ-2 תווים")
+                document.getElementById("input1").value = "";
+                document.getElementById("input1").focus();
+              
+            }
+            else{ window.open("../pages/homePage.html");
+                window.close()}
+           
+        }
+        document.getElementById("input1").focus();
+    </script>
+</body>
+
+</html>

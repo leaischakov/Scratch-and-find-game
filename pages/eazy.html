@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../style/style.css">
+</head>
+<style>
+    div {
+        width: 10px;
+        height: 100;
+        padding: 10px;
+        border: 1px gray solid;
+        background-color: gray;
+        display: flex;
+        flex-wrap: wrap;
+        align-content: stretch;
+        border-color: gray;
+    }
+
+    #container {
+        height: 3px;
+        top: 12vh;
+
+    }
+
+    #animate {
+        height: 3px;
+        position: absolute;
+    }
+
+     /* .bt {
+        margin-top: 4%;
+    }  */
+</style>
+
+
+<body>
+
+    <button id="btnPouse" onclick="saveLocalStoreg()"><label for="" id="labelPouse">&#9654</label> </button>
+
+    <h2> <img src="../img/coins.png" class="coin" alt=""></h2>
+    <p></p>
+
+    <h2 id="h2"></h2>
+    
+    <div id="container">
+        <div id="animate"></div>
+    </div>
+    <div id="bigDiv" class="bigDiv">
+    </div>
+    <input type="text">
+    <button id="send"><label for="" id="lbl">?ניחשתי נכון</label></button><br><br>
+    <button id="mor" onclick="more()" class="bt"><label for=""> &#128395 גרד עוד</label></button>
+    <br><br>
+    <button onclick="hint()" class="btn"> <label for="">&#128161 קח רמז</label></button>
+
+    <script>
+
+        for (let index = 0; index < 112; index++) {//יצירת דיבים
+            document.getElementById("bigDiv").innerHTML += "<div class='a'></div>";
+        }
+        let c = parseInt(localStorage.getItem("coins"));
+        console.log(c)
+        if (!c) {
+            c = 13;
+        }
+        let saveSetInterval;
+        document.querySelector("p").innerHTML = c;
+        let intervalTime = setInterval(timer, 1000);
+        let j = parseInt(localStorage.getItem("indexJ"));
+        if (!j)
+            j = 0;
+        let arr = ["לגו", "ארנק", "בלונים", "תפוחים", "פרח", "עוגה", "חולצה", "מהדק", "כלב", "נעל", "מחשבון"];
+        //let arr = ["לגו", "ארנק", "בלונים", "תפוחים", "פרח", "עוגה", "חולצה", "מהדק", "כלב"];
+        let arrDiv = document.querySelectorAll(".a");
+        let z1 = parseInt(localStorage.getItem("time"));
+        console.log(z1)
+        if (!z1)
+            z1 = 59;
+        bgPic();
+
+        function bgPic() {//פונקציה שמאתחלת את הזמן מכניסה תמונה לדיב הגדול שולחת לפונקציה מור שאחראית על האנימציה ודואגת שהדיבים מכוסים באפור וכשהעכבר עובר שולחת לרמוב בג קולור
+
+            document.querySelector("#h2").innerHTML = "00:" + z1;
+            document.getElementById("bigDiv").style.backgroundImage = `url('../img/${arr[j]}.jpeg')`;
+            more();
+            document.querySelector("input").focus();
+            for (let i = 0; i < arrDiv.length; i++) {
+                arrDiv[i].style.opacity = 1;
+                console.log("add")
+                arrDiv[i].addEventListener("mouseover", removeBgColor1);
+            }
+
+        }
+
+
+        // for (let j = 0; j < arr.length; j++) {//לבדוק דחוווווף
+        //}
+        arrDiv = document.querySelectorAll(".a")//מכניס למערך את כל הדיבים שיש להם קלס a
+        function more()//נותנת אפשרות לגרד עוד בעת לחיצה על הכפתור גרד עוד ומורידה מהמטבעות 
+        {
+            document.querySelector("input").focus();
+
+            if (c > 3) {
+                c -= 3;
+                document.querySelector("p").innerText = c;
+            }
+            else {
+                for (let i = 0; i < arrDiv.length; i++) {//לתקן שאם שווה פחות מ-3 אז  אי אפשר לגרד עוד
+
+                    arrDiv[i].removeEventListener("mouseover", removeBgColor1)
+                }
+            }
+            for (let i = 0; i < arrDiv.length; i++) {
+                arrDiv[i].addEventListener("mouseover", removeBgColor1)
+            }
+            myMove();//קריאה לפונקציה שאחראית על האנימציה
+        }
+
+        // for (let i = 0; i < arrDiv.length; i++) {//לבדוק אם הוא מיותר או לא
+        //     arrDiv[i].addEventListener("mouseover", removeBgColor1)
+
+        // }
+        function removeBgColor1() {//פונקציה שאחראית בעת מעבר על הדיבים לגלות את כל הדיבים שעברו עליהם
+            event.target.style.opacity = 0;
+
+        }
+        document.querySelector("#send").addEventListener("click", check)//בעת לחיצה על כפתור ניחשתי נכון מופעלת הפונקצי check
+        let cnt = 0;
+        function check() {//בדיקה אם הערך בכפתור האינפוט שווה לשם התמונה
+            let x = document.querySelector("input").value
+            let y = arr[j];
+
+
+            if (x == y) //אם כן התמונה מתגלה הזמן חוזר להיות 60 האינפוט מתרוקן והפוקוס עליו מוסים 5 למטבעות התמונה מתחלפת 
+            {
+                for (let i = 0; i < arrDiv.length; i++) {
+                    arrDiv[i].style.opacity = 0;
+                }
+                z1 = 60;
+                document.querySelector("input").value = "";
+                document.querySelector("input").focus();
+                c += 5;
+                document.querySelector("p").innerText = c;
+                j++;
+                if (j == arr.length) {
+                    window.open("../pages/win.html");
+                    window.close()
+                }
+                // for (let i = 0; i < arrDiv.length; i++) {
+                //     arrDiv[i].addEventListener("mouseover", removeBgColor1)//לבדוק אם צריך או לא
+
+                // }
+
+                setTimeout(bgPic, 2000);//קריאה ל- בג פיק תוך 2 שניות שנספיק לראות את התמונה
+            }
+            else {//אם לא שווים מספר הטעויות עולה ב-1 ממספר המטבעות יורד בב-2 האינפוט מתרוקן והפוקוס עליו
+                cnt++;
+                if (c > 0) {
+                    c -= 2;
+                    document.querySelector("p").innerText = c;
+                    document.querySelector("input").value = "";
+                    document.querySelector("input").focus();
+
+                }
+                alert("נסה שוב");
+                document.querySelector("input").value = "";
+                document.querySelector("input").focus();
+            }
+            if (cnt === 3) {//כשמספר הטעויות שווה ל-3 אז המשחק נגמר
+                window.open("../pages/gameOver.html");
+            }
+
+        }
+
+        function timer() {//פונקציה שאחראית על הזמן יש 60 שניות לגלות תמונה אחרת המשחק נגמר
+            if (z1 > 0) {
+
+                document.querySelector("#h2").innerHTML = "00:" + z1;
+                z1--;
+            }
+            if (z1 === 0) {
+                window.open("../pages/gameOver.html");
+                window.close()
+                clearInterval(intervalTime);//"לבדוק כי אחרי 60 שניות הדף לא מתחלף ל"המשחק נגמר
+
+            }
+
+        }
+        function myMove() {//אחראית להזיז את האנימציה
+            let id = null;
+            const elem = document.getElementById("animate");
+            let pos = 400;
+            clearInterval(id);
+            id = setInterval(frame, 0.5);
+            function frame() {
+                if (pos == 0) {
+                    clearInterval(id);
+                    for (let i = 0; i < arrDiv.length; i++) {
+
+                        arrDiv[i].removeEventListener("mouseover", removeBgColor1)
+                    }
+                }
+                else {
+
+                    pos--;
+                    elem.style.width = pos + "px"
+                }
+            }
+        }
+
+
+        let count = 0;
+
+        function hint() {//בעת לחיצה על כפתור הרמז האות הראשונה נכנסת לאינפוט
+            if (c > 1) {
+                c -= 1;
+                document.querySelector("p").innerText = c;
+            }
+            count++;
+            str = new String(arr[j]);
+            console.log(str);
+            document.querySelector("input").value = str[0];
+            document.querySelector("input").focus();
+        }
+
+
+        let flag = false;
+        function saveLocalStoreg() {
+            if (!flag) {
+                console.log("enter")
+                let localTime = z1;
+                localStorage.setItem("time", localTime);
+                let localCoins = document.querySelector("p").innerHTML;
+                localStorage.setItem("coins", localCoins);
+                console.log(j)
+                localStorage.setItem("indexJ", j);
+                clearInterval(intervalTime);
+                document.getElementById("animate").style.animationPlayState = "paused";
+                flag = true
+            }
+            else {
+                intervalTime = setInterval(timer, 1000);
+                document.getElementById("animate").style.animationPlayState = 'running';
+                flag = false
+            }
+
+        }
+
+
+    </script>
+
+</body>
+
+</html>
